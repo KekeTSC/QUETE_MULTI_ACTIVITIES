@@ -38,8 +38,6 @@
         android:layout_gravity="center_vertical|center_horizontal"
         android:background="@color/colorAccent"
         android:text="@string/menubutton"
-        android:textColor="@android:color/white"
-        app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="center_vertical|center_horizontal" />
+        android:textColor="@android:color/white" />
 
 </android.support.design.widget.CoordinatorLayout>
