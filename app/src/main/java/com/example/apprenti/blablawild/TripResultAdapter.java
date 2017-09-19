@@ -1,15 +1,13 @@
 package com.example.apprenti.blablawild;
 
 import android.content.Context;
-import android.icu.text.SimpleDateFormat;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class TripResultAdapter extends BaseAdapter {
@@ -36,7 +34,6 @@ public class TripResultAdapter extends BaseAdapter {
         return position;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {

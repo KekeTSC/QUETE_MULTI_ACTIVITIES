@@ -7,10 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class ViewSearchItineraryResultsListActivity extends AppCompatActivity {
     ListView ListViewResults;
@@ -21,18 +24,15 @@ public class ViewSearchItineraryResultsListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_search_itinerary_results_list);
 
         Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        String destination = bundle.getString("destination");
-        String departure = bundle.getString("departure");
-        String date = bundle.getString("date");
-        if (date.isEmpty()) {
-            String title = departure + " >> " + destination;
-            setTitle(title);
-        }
-        else{
-            String title = departure + " >> " + destination + " le " + date;
-            setTitle(title);
-        }
+        SearchRequestModel request = intent.getExtras().getParcelable("searchRequest");
+        String departure = request.getDepartureCity();
+        String destination = request.getDestinationCity();
+        Date date = request.getDateOfDepature();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        Toast.makeText(getApplicationContext(), String.format("%1$tb %1$te, %1$tY",calendar), Toast.LENGTH_SHORT).show();
+
+        setTitle(departure + " >> " + destination);
 
 
         ListViewResults = (ListView) findViewById(R.id.listViewSearchResults);

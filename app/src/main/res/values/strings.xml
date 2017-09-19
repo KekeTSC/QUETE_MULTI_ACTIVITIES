@@ -6,5 +6,7 @@
     <string name="destination">Destination</string>
     <string name="date">Date</string>
     <string name="menubutton">RECHERCHER UN ITINERAIRE</string>
-    <string name="toast_text">Veuillez renseigner la départ et la destination.</string>
+    <string name="toast_text_1">Veuillez renseigner la départ et la destination.</string>
+    <string name="toast_text_2">Veuillez renseigner la départ.</string>
+    <string name="toast_text_3">Veuillez renseigner la destination.</string>
 </resources>

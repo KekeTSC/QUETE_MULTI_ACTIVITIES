@@ -11,47 +11,54 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
 public class SearchItineraryActivity extends AppCompatActivity{
 
-    EditText departure;
-    EditText destination;
-    Button searchButton;
-    Context context;
-    Calendar myCalendar = Calendar.getInstance();
-    EditText edittext;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_itinerary);
 
-        departure = (EditText) findViewById(R.id.editTextSearhDeparture);
-        destination = (EditText) findViewById(R.id.editTextSearchDestination);
-        searchButton = (Button) findViewById(R.id.search_button);
-        edittext = (EditText) findViewById(R.id.editTextSearchDate);
+        final Calendar myCalendar = Calendar.getInstance();
+        Button searchButton = (Button) findViewById(R.id.search_button);
+        final EditText dateText = (EditText) findViewById(R.id.editTextSearchDate);
 
         Intent intent = getIntent();
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                EditText departureText = (EditText) findViewById(R.id.editTextSearhDeparture);
+                EditText destinationText = (EditText) findViewById(R.id.editTextSearchDestination);
+
+                String departure = departureText.getText().toString();
+                String destination = destinationText.getText().toString();
+
                 InputMethodManager inputManager = (InputMethodManager)
                         getSystemService(Context.INPUT_METHOD_SERVICE);
 
                 inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
-                if (departure.getText().toString().isEmpty() || destination.getText().toString().isEmpty()) {
-                    Toast toast = Toast.makeText(getApplicationContext(), R.string.toast_text, Toast.LENGTH_LONG);
+
+
+                if (departure.isEmpty() && destination.isEmpty()) {
+                    Toast toast = Toast.makeText(getApplicationContext(), R.string.toast_text_1, Toast.LENGTH_LONG);
                     toast.show();
-                } else {
-                    Intent intent = new Intent(SearchItineraryActivity.this, ViewSearchItineraryResultsListActivity.class);
-                    intent.putExtra("departure", departure.getText().toString());
-                    intent.putExtra("destination", destination.getText().toString());
-                    intent.putExtra("date", edittext.getText().toString());
+                }
+                else if (departure.isEmpty()) {
+                    Toast toast = Toast.makeText(getApplicationContext(), R.string.toast_text_2, Toast.LENGTH_LONG);
+                    toast.show();
+                }
+                else if (destination.isEmpty()) {
+                    Toast toast = Toast.makeText(getApplicationContext(), R.string.toast_text_3, Toast.LENGTH_LONG);
+                    toast.show();
+                }
+                else {
+                    Intent intent = new Intent(getApplicationContext(), ViewSearchItineraryResultsListActivity.class);
+                    SearchRequestModel searchRequest = new SearchRequestModel(departure, destination, myCalendar.getTime());
+                    intent.putExtra("searchRequest", searchRequest);
                     startActivity(intent);
                 }
             }
@@ -60,17 +67,20 @@ public class SearchItineraryActivity extends AppCompatActivity{
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
             @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
+            public void onDateSet(DatePicker datePicker, int year, int monthOfYear,
                                   int dayOfMonth) {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel();
-            }
 
+                String myFormat = "dd/MM/yy";
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.FRANCE);
+                dateText.setText(sdf.format(myCalendar.getTime()));
+                //updateLabel();
+            }
         };
 
-        edittext.setOnClickListener(new View.OnClickListener() {
+        dateText.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -78,14 +88,15 @@ public class SearchItineraryActivity extends AppCompatActivity{
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
-
         });
     }
 
-    private void updateLabel() {
+    /*private void updateLabel() {
+        final EditText dateText = (EditText) findViewById(R.id.editTextSearchDate);
+        final Calendar myCalendar = Calendar.getInstance();
         String myFormat = "dd/MM/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.FRANCE);
-
-        edittext.setText(sdf.format(myCalendar.getTime()));
+        dateText.setText(sdf.format(myCalendar.getTime()));
     }
+    */
 }
