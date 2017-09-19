@@ -2,13 +2,14 @@ package com.example.apprenti.blablawild;
 
 import android.content.ClipData;
 import android.content.Intent;
-import android.icu.text.SimpleDateFormat;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ViewSearchItineraryResultsListActivity extends AppCompatActivity {
